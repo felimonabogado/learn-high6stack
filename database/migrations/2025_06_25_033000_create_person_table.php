@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('person', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name', length: 100);
             $table->string('email', length: 100)->unique();
             $table->string('phone')->unique();
             $table->string('note', length: 200)->nullable();
-            $table->string('user_id', length: 100)->nullable();
+            // $table->boolean('important')->default(true);
             $table->timestamps();
         });
     }

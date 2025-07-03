@@ -8,12 +8,14 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::get('/mypage', [PersonController::class, 'show'])->name('mypage');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+    Route::get('/contacts', [PersonController::class, 'index'])->name('contacts');
+    Route::get('/contacts/create', [PersonController::class, 'create'])->name('contacts.create');
+    Route::post('/contacts', [PersonController::class, 'store'])->name('contacts.store');
 });
 
 require __DIR__.'/settings.php';
