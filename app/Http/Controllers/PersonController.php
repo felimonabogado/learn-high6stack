@@ -16,7 +16,8 @@ class PersonController extends Controller
         $this->current_user = User::findOrFail(auth()->id());
     }
 
-    public function index(){
+    public function index()
+    {
         $contacts = Person::select("*")->where('user_id', '=', auth()->id())->orderBy('created_at', 'DESC')->get();
          return Inertia::render('Contacts/ContactList', [
             'contacts' => $contacts,
@@ -71,24 +72,36 @@ class PersonController extends Controller
     /**
      * Show the form for editing the resource.
      */
-    public function edit()
+    public function edit(Person $person)
     {
-        //
+        return Inertia::render('Contacts/EditContact', [
+            'person' => $person,
+            'current_user' => $this->current_user,
+        ]);
     }
 
     /**
      * Update the resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, Person $person)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => ['required', 'string', 'max:20', 'regex:/^\+?\d{1,3}\s?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}$/'],
+            'note' => 'nullable|string|max:500',
+        ]);
+
+        $person->update($request->all());
+        return redirect()->route('contacts')->with('message', 'Contact updated successfully!');
     }
 
     /**
      * Remove the resource from storage.
      */
-    public function destroy(): never
+    public function destroy(Person $person)
     {
-        abort(404);
+        $person->delete();
+        return redirect()->route('contacts')->with('message', 'Contact deleted successfully!');
     }
 }
