@@ -19,7 +19,10 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
+import { QuickAction } from '@/components/custom-ui/quick-action';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -34,15 +37,6 @@ export default function ContactList() {
       data: any[];
       links: any[];
   };
-
-  console.log(contacts);
-  const {processing, delete: destroy} = useForm();
-
-  const handleDelete = (id: number, name: string) => {
-    if (confirm(`Are you sure you want to delete ${name}?`)) {
-      destroy(route('contacts.destroy', id));
-    }
-  }
 
   return (
     <>
@@ -65,7 +59,8 @@ export default function ContactList() {
             </Button>
           </div>
           {contacts?
-            (<>
+            (
+            <>
             <Table>
               <TableCaption>Contact Person List</TableCaption>
               <TableHeader>
@@ -73,7 +68,7 @@ export default function ContactList() {
                   <TableHead className='font-bold'>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Phone</TableHead>
-                  <TableHead className='text-center font-semibold'>Action</TableHead>
+                  <TableHead className='font-semibold'>Action</TableHead>
                 </TableRow>
               </TableHeader>
                 <TableBody>
@@ -82,11 +77,8 @@ export default function ContactList() {
                     <TableCell><Link href={route('contacts.show', person.id)}>{person.name}</Link></TableCell>
                     <TableCell><a href={`mailto:${person.email}`}>{person.email}</a></TableCell>
                     <TableCell><a href={`tel:${person.phone}`}>{person.phone}</a></TableCell>
-                    <TableCell className='text-center space-x-2'>
-                      <Button className='text-white cursor-pointer bg-slate-600 hover:bg-slate-700' asChild>
-                        <Link href={route('contacts.edit', person.id)}>Edit</Link>
-                      </Button>
-                      <Button disabled={processing} onClick={() => handleDelete(person.id, person.name)} className='bg-red-600 text-white cursor-pointer hover:bg-red-700'>Delete</Button>
+                    <TableCell className='text-center'>
+                      <QuickAction id={person.id} name={person.name} />
                     </TableCell>
                   </TableRow>
                   ))}
@@ -110,10 +102,12 @@ export default function ContactList() {
                     ))}
                   </PaginationContent>
                 </Pagination>
-              </>)
+              </>  
+                )
             :
             <p>No data has found</p>
           }
+
         </div>
       </AppLayout>
     </>

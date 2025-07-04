@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
-import { Button } from "@/components/ui/button";
+import { Head } from '@inertiajs/react';
 import {
   Card,
   CardAction,
@@ -12,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Phone } from 'lucide-react';
 import { Mail } from 'lucide-react';
+import { User } from 'lucide-react';
+import { QuickAction } from '@/components/custom-ui/quick-action';
 
 interface Person {
   id: number;
@@ -34,7 +35,7 @@ export default function ViewContact({person }: ViewContactProps) {
                     <CardHeader>
                         <CardTitle>{person.name}</CardTitle>
                         <CardDescription>{person.note}</CardDescription>
-                        <CardAction>Person</CardAction>
+                        <CardAction><User/></CardAction>
                     </CardHeader>
                     <CardContent>
                         <ul className="flex flex-col gap-2">
@@ -53,9 +54,7 @@ export default function ViewContact({person }: ViewContactProps) {
                         </ul>
                     </CardContent>
                     <CardFooter>
-                        <Button className="text-white cursor-pointer bg-slate-600 hover:bg-slate-700" asChild>
-                            <Link href={route('contacts.edit', person.id)}>Edit</Link>
-                        </Button>
+                        <QuickAction id={person.id} name={person.name} />
                     </CardFooter>
                 </Card>
             </div>
