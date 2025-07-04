@@ -13,6 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -21,9 +28,14 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function ContactList({ contacts = [] }: { contacts?: any[] }) {
+export default function ContactList() {
   const flash = usePage().props.flash as { message?: string };
+   const contacts  = usePage().props.contacts as {
+      data: any[];
+      links: any[];
+  };
 
+  console.log(contacts);
   const {processing, delete: destroy} = useForm();
 
   const handleDelete = (id: number, name: string) => {
@@ -52,7 +64,8 @@ export default function ContactList({ contacts = [] }: { contacts?: any[] }) {
               <Link href={route('contacts.create')}>Add New</Link>
             </Button>
           </div>
-          {contacts ?
+          {contacts?
+            (<>
             <Table>
               <TableCaption>Contact Person List</TableCaption>
               <TableHeader>
@@ -60,31 +73,47 @@ export default function ContactList({ contacts = [] }: { contacts?: any[] }) {
                   <TableHead className='font-bold'>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Phone</TableHead>
-                  <TableHead>Note</TableHead>
                   <TableHead className='text-center font-semibold'>Action</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {contacts?.map((person: any, index: number) => (
-                <TableRow>
-                  <TableCell>{person.name}</TableCell>
-                  <TableCell><a href={`mailto:${person.email}`}>{person.email}</a></TableCell>
-                  <TableCell><a href={`tel:${person.phone}`}>{person.phone}</a></TableCell>
-                  <TableCell>{person.note}</TableCell>
-                  <TableCell className='text-center space-x-2'>
-                    <Button className='text-white cursor-pointer bg-slate-600 hover:bg-slate-700' asChild>
-                      <Link href={route('contacts.edit', person.id)}>Edit</Link>
-                    </Button>
-                    <Button disabled={processing} onClick={() => handleDelete(person.id, person.name)} className='bg-red-600 text-white cursor-pointer hover:bg-red-700'>Delete</Button>
-                  </TableCell>
-                </TableRow>
-                 ))}
-              </TableBody>
-            </Table>
+                <TableBody>
+                  {contacts.data?.map((person: any, index: number) => (
+                  <TableRow>
+                    <TableCell><Link href={route('contacts.show', person.id)}>{person.name}</Link></TableCell>
+                    <TableCell><a href={`mailto:${person.email}`}>{person.email}</a></TableCell>
+                    <TableCell><a href={`tel:${person.phone}`}>{person.phone}</a></TableCell>
+                    <TableCell className='text-center space-x-2'>
+                      <Button className='text-white cursor-pointer bg-slate-600 hover:bg-slate-700' asChild>
+                        <Link href={route('contacts.edit', person.id)}>Edit</Link>
+                      </Button>
+                      <Button disabled={processing} onClick={() => handleDelete(person.id, person.name)} className='bg-red-600 text-white cursor-pointer hover:bg-red-700'>Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                  ))}
+                  </TableBody>
+                </Table>
+                <Pagination>
+                  <PaginationContent>
+                    {contacts.links.map((link: any, index: number) => (
+                      <PaginationItem key={index}>
+                        {link.url ? (
+                          <Link href={link.url}>
+                            <PaginationLink
+                              isActive={link.active}
+                              dangerouslySetInnerHTML={{ __html: link.label }}
+                            />
+                          </Link>
+                        ) : (
+                          <PaginationEllipsis />
+                        )}
+                      </PaginationItem>
+                    ))}
+                  </PaginationContent>
+                </Pagination>
+              </>)
             :
             <p>No data has found</p>
           }
-
         </div>
       </AppLayout>
     </>

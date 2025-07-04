@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/contacts', [PersonController::class, 'store'])->name('contacts.store');
     Route::get('/contacts/{person}/edit', [PersonController::class, 'edit'])->name('contacts.edit');
     Route::put('/contacts/{person}', [PersonController::class, 'update'])->name('contacts.update');
+    Route::get('/contacts/{person}', [PersonController::class, 'show'])->name('contacts.show');
     Route::delete('/contacts/{person}', [PersonController::class, 'destroy'])->name('contacts.destroy');
 });
 

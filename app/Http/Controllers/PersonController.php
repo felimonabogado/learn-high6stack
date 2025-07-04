@@ -18,7 +18,7 @@ class PersonController extends Controller
 
     public function index()
     {
-        $contacts = Person::select("*")->where('user_id', '=', auth()->id())->orderBy('created_at', 'DESC')->get();
+        $contacts = Person::select("*")->where('user_id', '=', auth()->id())->orderBy('created_at', 'DESC')->paginate(10);
          return Inertia::render('Contacts/ContactList', [
             'contacts' => $contacts,
         ]);
@@ -30,7 +30,6 @@ class PersonController extends Controller
     public function create()
     {
 
-        //$current_user = User::findOrFail(auth()->id());
         return Inertia::render('Contacts/RegisterContact', [
             'current_user' => $this->current_user,
         ]);
@@ -55,18 +54,16 @@ class PersonController extends Controller
     /**
      * Display the resource.
      */
-    public function show()
+    public function show(Person $person)
     {
-        //  $data_list = [
-        //     ['id' => 1, 'name' => 'John Doe', 'age' => 30],
-        //     ['id' => 2, 'name' => 'Jane Smith', 'age' => 25],
-        //     ['id' => 3, 'name' => 'Alice Johnson', 'age' => 28],
-        //     ['id' => 4, 'name' => 'Bob Brown', 'age' => 35],
-        // ];
+        if ($person->user_id !== auth()->id()) {
+            abort(404);
+        }
 
-        // return Inertia::render('Contacts/ContactList', [
-        //     'mydata' => $data_list
-        // ]);
+        return Inertia::render('Contacts/ViewContact', [
+            'person' => $person,
+            'current_user' => $this->current_user,
+        ]);
     }
 
     /**
@@ -74,6 +71,10 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
+        if ($person->user_id !== auth()->id()) {
+            abort(404);
+        }
+
         return Inertia::render('Contacts/EditContact', [
             'person' => $person,
             'current_user' => $this->current_user,
