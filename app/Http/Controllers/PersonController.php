@@ -60,10 +60,7 @@ class PersonController extends Controller
             abort(404);
         }
 
-        return Inertia::render('Contacts/ViewContact', [
-            'person' => $person,
-            'current_user' => $this->current_user,
-        ]);
+        return Inertia::render('Contacts/ViewContact', compact('person'));
     }
 
     /**
