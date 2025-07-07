@@ -5,7 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return Inertia::render('Home');
 })->name('home');
 
 
