@@ -3,7 +3,8 @@ import { type BreadcrumbItem } from '@/types';
 import { Button } from "@/components/ui/button";
 import { Head, Link, usePage, useForm } from '@inertiajs/react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { UserRoundCheck } from 'lucide-react';
+import { Search, UserRoundCheck } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -19,8 +20,6 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 import { QuickAction } from '@/components/custom-ui/quick-action';
 
@@ -31,11 +30,21 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function ContactList() {
+
+export default function ContactList({filters}: {filters: string}) {
   const flash = usePage().props.flash as { message?: string };
-   const contacts  = usePage().props.contacts as {
+  const contacts  = usePage().props.contacts as {
       data: any[];
       links: any[];
+  };
+
+ const { data, setData, get } = useForm({
+    search: filters || '',
+  });
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    get(route('contacts', { search: data.search}));
   };
 
   return (
@@ -52,11 +61,15 @@ export default function ContactList() {
               </AlertDescription>
             </Alert>
           )}
-          <h1 className='text-2xl font-bold'>Contact list</h1>
-          <div className="flex flex-wrap items-center gap-2 md:flex-row">
+          <h1 className='text-2xl font-bold'>Contact List</h1>
+          <div className="flex flex-wrap items-center place-content-between gap-2 md:flex-row">
             <Button asChild>
               <Link href={route('contacts.create')}>Add New</Link>
             </Button>
+            <form action="" className='flex space-x-2' onSubmit={handleSearch}>
+              <Input placeholder='search by name' name='search' value={data.search} onChange={(e) => setData('search', e.target.value)}/>
+              <Button type='submit' className='cursor-pointer'><Search/></Button>
+            </form>
           </div>
           {contacts?
             (

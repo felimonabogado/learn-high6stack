@@ -22,13 +22,13 @@ const mainNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
+        title: 'Project Repository',
+        href: 'https://github.com/felimonabogado/learn-high6stack/tree/cm-dev-0.0.2',
         icon: Folder,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+        title: 'High6 Onboarding Guide',
+        href: 'https://docs.google.com/document/d/1G1Qr2_4ISjFNLhbyll7Xt7kzOprMTN4OeEBzB_ovowk/edit?usp=sharing',
         icon: BookOpen,
     },
 ];

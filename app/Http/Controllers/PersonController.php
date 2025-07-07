@@ -16,9 +16,16 @@ class PersonController extends Controller
         $this->current_user = User::findOrFail(auth()->id());
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = Person::select("*")->where('user_id', '=', auth()->id())->orderBy('created_at', 'DESC')->paginate(10);
+
+        $search = $request->input('search');
+        $contacts = Person::query()
+        ->where('user_id', '=', auth()->id())
+        ->when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10)
+        ->withQueryString();
          return Inertia::render('Contacts/ContactList', [
             'contacts' => $contacts,
         ]);
