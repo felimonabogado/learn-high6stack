@@ -42,7 +42,7 @@ export default function Home() {
                     <div className='w-[50%] text-whites z-10 h-auto content-center space-y-5 pr-24'>
                         <h2 className='text-2xl font-bold'>Welcome to</h2>
                         <h1 className='text-5xl font-bold'>Contact Management System</h1>
-                        <h3 className='text-2xl'>Create organize and manage your connections.</h3>
+                        <h3 className='text-2xl'>Create, organize and manage your connections.</h3>
                         <div className='space-x-3'>
                              {auth.user ? (
                                 <Button asChild>

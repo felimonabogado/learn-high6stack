@@ -1,11 +1,10 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import {usePage} from '@inertiajs/react';
+import {usePage, Link} from '@inertiajs/react';
 import { type SharedData } from '@/types';
 import { User } from 'lucide-react';
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 
 import {
   Card,
@@ -39,32 +38,28 @@ export default function Dashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <Card className='flex h-full'>
-                            <CardHeader>
-                                <CardTitle>Hello {user.name}</CardTitle>
-                                <CardDescription>{user.email}</CardDescription>
-                                <CardAction><User/></CardAction>
-                            </CardHeader>
-                            <CardContent>
-                                <p>Welcome to your contact management system</p>
-                            </CardContent>
-                            <CardFooter>
-                                <p>Here you can manage your contacts</p>
-                            </CardFooter>
-                        </Card>
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <Calendar mode="single" defaultMonth={new Date()} className='mx-auto'/>
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+            <div className="grid grid-cols-4 p-4 gap-5">
+                <div className="border rounded col-span-3">
+                    <Card className='border-0 flex h-full justify-between'>
+                        <CardHeader>
+                            <CardTitle>Hello {user.name}</CardTitle>
+                            <CardDescription>{user.email}</CardDescription>
+                            <CardAction><Link href='/settings/profile'><User /></Link></CardAction>
+                        </CardHeader>
+                        <CardContent>
+                            <p>Welcome to your contact management system.</p>
+                            <p>Here you can manage your contacts</p>
+                        </CardContent>
+                        <CardFooter>
+                            <p className='text-sm space-x-2'>
+                                <Link href={route('contacts')} className='border rounded py-1 px-3 border-black dark:border-white'>View Contacts</Link>
+                                <Link href={route('contacts.create')} className='border rounded py-1 px-3 border-white bg-black dark:bg-white text-white dark:text-black'>Add New</Link>
+                            </p>
+                        </CardFooter>
+                    </Card>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                <div className='border rounded'>
+                    <Calendar mode="single" defaultMonth={new Date()} className='mx-auto' />
                 </div>
             </div>
         </AppLayout>
