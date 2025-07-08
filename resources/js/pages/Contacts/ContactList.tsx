@@ -33,18 +33,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function ContactList({filters}: {filters: string}) {
   const flash = usePage().props.flash as { message?: string };
-  const contacts  = usePage().props.contacts as {
-      data: any[];
-      links: any[];
+  const contacts = usePage().props.contacts as {
+    data: any[];
+    links: any[];
   };
 
- const { data, setData, get } = useForm({
+  const { data, setData, get } = useForm({
     search: filters || '',
   });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    get(route('contacts', { search: data.search}));
+    get(route('contacts', { search: data.search }));
   };
 
   return (
@@ -71,7 +71,7 @@ export default function ContactList({filters}: {filters: string}) {
               <Button type='submit' className='cursor-pointer'><Search/></Button>
             </form>
           </div>
-          {contacts?
+          {contacts.data?
             (
             <>
             <Table>
@@ -86,7 +86,7 @@ export default function ContactList({filters}: {filters: string}) {
               </TableHeader>
                 <TableBody>
                   {contacts.data?.map((person: any, index: number) => (
-                  <TableRow>
+                  <TableRow >
                     <TableCell><Link href={route('contacts.show', person.id)}>{person.name}</Link></TableCell>
                     <TableCell><a href={`mailto:${person.email}`}>{person.email}</a></TableCell>
                     <TableCell><a href={`tel:${person.phone}`}>{person.phone}</a></TableCell>

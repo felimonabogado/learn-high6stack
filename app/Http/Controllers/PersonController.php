@@ -28,6 +28,7 @@ class PersonController extends Controller
         ->withQueryString();
          return Inertia::render('Contacts/ContactList', [
             'contacts' => $contacts,
+            'filters' => $search,
         ]);
     }
 
