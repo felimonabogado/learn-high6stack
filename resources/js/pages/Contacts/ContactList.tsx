@@ -41,7 +41,7 @@ export default function ContactList({filters}: {filters: string}) {
   const { data, setData, get } = useForm({
     search: filters || '',
   });
-
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     get(route('contacts', { search: data.search }));
