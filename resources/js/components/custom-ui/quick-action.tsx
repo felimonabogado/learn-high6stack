@@ -56,9 +56,9 @@ export function QuickAction({ id, name }: { id: number; name: string }) {
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Are you sure you want to delete {name}?</DialogTitle>
+                        <DialogTitle>Are you sure you want to delete?</DialogTitle>
                         <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+                            This action cannot be undone. This will permanently delete <span className="font-semibold">{name}</span> and remove its data from our servers.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex justify-end gap-2 mt-4">

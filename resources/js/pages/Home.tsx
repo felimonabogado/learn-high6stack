@@ -38,12 +38,12 @@ export default function Home() {
                         )}
                     </nav>
                 </header>
-                <div className="h-screen flex justify-end bg-[url('/image/cms-bg.jpg')] bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black/60 before:z-0">
-                    <div className='w-[50%] text-whites z-10 h-auto content-center space-y-5 pr-24'>
-                        <h2 className='text-2xl font-bold'>Welcome to</h2>
-                        <h1 className='text-5xl font-bold'>Contact Management System</h1>
-                        <h3 className='text-2xl'>Create, organize and manage your connections.</h3>
-                        <div className='space-x-3'>
+                <div className="h-screen flex justify-end bg-[url('/image/cms-bg-mobile.jpg')] lg:bg-[url('/image/cms-bg.jpg')] bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black/60 before:z-0">
+                    <div className='xl:w-[50%] lg:w-[60%] w-full text-whites z-10 h-auto content-center space-y-3 lg:space-y-5 xl:pr-24 lg:pr-20 lg:pl-0 md:px-20 sm:px-12 px-10'>
+                        <h2 className='text-lg lg:text-2xl font-bold'>Welcome to</h2>
+                        <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold'>Contact Management System</h1>
+                        <h3 className='text-base tsm:text-lg lg:text-2xl'>Create, organize and manage your connections.</h3>
+                        <div className='space-x-1 sm:space-x-2 lg:space-x-3'>
                              {auth.user ? (
                                 <Button asChild>
                                     <Link href={route('dashboard')}>Go to Dashboard</Link>
